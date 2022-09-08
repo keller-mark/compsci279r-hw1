@@ -5,7 +5,7 @@ To-Do App implemented using NodeJS and MongoDB based on the tutorial at https://
 
 ## How to open hosted version
 
-Navigate to ? in a web browser.
+Navigate to https://peaceful-dusk-53180.herokuapp.com/ in a web browser.
 
 ## How to run locally
 
