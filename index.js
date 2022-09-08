@@ -1,5 +1,17 @@
 // Import the express web server framework library.
 const express = require("express");
+// Import the dotenv library to be able to use
+// environment variables stored in the local file ./.env
+const dotenv = require("dotenv");
+// Import the mongoose library to be able to connect
+// and read/write to the MongoDB database.
+const mongoose = require("mongoose");
+
+// Import the database models.
+const TodoTask = require("./models/TodoTask");
+
+// Load the environment variables from ./.env
+dotenv.config();
 
 // Create a new web server instance by calling
 // the express top-level function.
@@ -23,18 +35,46 @@ app.use(express.urlencoded({ extended: true }));
 // Listen for HTTP GET requests on the root path (e.g., http://localhost:3000/)
 // and return the To-Do home page HTML template as the response.
 app.get('/', (req, res) => {
-  res.render("todo.ejs");
+  TodoTask.find({}, (err, tasks) => {
+    res.render("todo.ejs", { todoTasks: tasks });
+  });
 });
 
 // Listen for HTTP POST requests on the root path to
 // capture form submissions from <form/> elements on the
 // home page of the To-Do App.
-app.post('/', (req, res) => {
+app.post('/', async (req, res) => {
   console.log(req.body);
+  // The new task form has been submitted.
+  // Based on the form contents,
+  // create a new TodoTask object instance.
+  const todoTask = new TodoTask({
+    content: req.body.content,
+  });
+  // Try saving the new instance to the database.
+  try {
+    await todoTask.save();
+    // The save was successful, so redirect back to the
+    // todo list home page.
+    res.redirect("/");
+  } catch(err) {
+    // The save was not successful, but also redirect back to the
+    // todo list home page.
+    res.redirect("/");
+  }
 });
 
 
-// Start the server and listen for requests on port 3000.
-// In addition, pass a callback function that will be executed
-// once the server has started successfully.
-app.listen(3000, () => console.log("Server up and running."));
+// Connect to the database.
+// Provide a callback function, so that, upon successful connection,
+// we can start the web server with the database connection pre-established.
+// Reference: https://stackoverflow.com/a/69035706
+mongoose.connect(process.env.DB_CONNECT).then(() => {
+  console.log("Connected to database.");
+  // Now that the database connection has been established,
+  // start the server and listen for requests on port 3000.
+  // In addition, pass a callback function that will be executed
+  // once the server has started successfully.
+  app.listen(3000, () => console.log("Server up and running."));
+});
+
