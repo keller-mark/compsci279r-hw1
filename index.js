@@ -64,9 +64,11 @@ app.route("/")
     }
   });
 
-  //
+// Listen for HTTP requests on the edit path
+// for a particular task.
 app.route("/edit/:id")
   .get((req, res) => {
+    // Parse the ID from the URL path.
     const id = req.params.id;
     TodoTask.find({}, (err, tasks) => {
       res.render("edit.ejs", { todoTasks: tasks, idTask: id });
@@ -82,8 +84,11 @@ app.route("/edit/:id")
     });
   });
 
+// Listen for HTTP requests on the remove path
+// for a particular task.
 app.route("/remove/:id")
   .get((req, res) => {
+    // Parse the ID from the URL path.
     const id = req.params.id;
     TodoTask.findByIdAndRemove(id, err => {
       if(err) {
@@ -100,7 +105,8 @@ app.route("/remove/:id")
 mongoose.connect(process.env.DB_CONNECT).then(() => {
   console.log("Connected to database.");
   // Now that the database connection has been established,
-  // start the server and listen for requests on port 3000.
+  // start the server and listen for requests on port 3000,
+  // or the dynamic port as specified by the Heroku server.
   // In addition, pass a callback function that will be executed
   // once the server has started successfully.
   app.listen(process.env.PORT, () => console.log("Server up and running."));
