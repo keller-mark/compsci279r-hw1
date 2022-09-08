@@ -17,20 +17,18 @@ Navigate to https://peaceful-dusk-53180.herokuapp.com/ in a web browser.
 npm install
 ```
 
-3. Create and configure the database
+3. Create and configure the database by following the instructions in the tutorial:
 
-Following the instructions in the tutorial:
+    1. Create a MongoDB Atlas account.
+    2. Create a cluster named `todo` on the free tier.
+    3. Add the IP address `0.0.0.0/0` to the allowlist.
+    4. Create a new username/password for the cluster.
+    5. Get the connection string.
+    6. Set the connection string in `./.env`, replacing the `<username>` and `<password>` parts:
 
-1. Create a MongoDB Atlas account.
-2. Create a cluster named `todo` on the free tier.
-3. Add the IP address `0.0.0.0/0` to the allowlist.
-4. Create a new username/password for the cluster.
-5. Get the connection string.
-6. Set the connection string in `./.env`, replacing the `<username>` and `<password>` parts:
-
-```
-DB_CONNECT=mongodb+srv://<username>:<password>@todo.qhddaeu.mongodb.net/?retryWrites=true&w=majority
-```
+    ```
+    DB_CONNECT=mongodb+srv://<username>:<password>@todo.qhddaeu.mongodb.net/?retryWrites=true&w=majority
+    ```
 
 ### Start the server
 
