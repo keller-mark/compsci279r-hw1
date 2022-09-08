@@ -1,0 +1,27 @@
+{
+  "name": "todo",
+  "version": "1.0.0",
+  "description": "To-Do App implemented using NodeJS and MongoDB",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/keller-mark/compsci279r-hw1.git"
+  },
+  "author": "Mark Keller",
+  "bugs": {
+    "url": "https://github.com/keller-mark/compsci279r-hw1/issues"
+  },
+  "homepage": "https://github.com/keller-mark/compsci279r-hw1#readme",
+  "dependencies": {
+    "dotenv": "^16.0.2",
+    "ejs": "^3.1.8",
+    "express": "^4.18.1",
+    "mongoose": "^6.5.5"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.19"
+  }
+}
