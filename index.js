@@ -103,6 +103,6 @@ mongoose.connect(process.env.DB_CONNECT).then(() => {
   // start the server and listen for requests on port 3000.
   // In addition, pass a callback function that will be executed
   // once the server has started successfully.
-  app.listen(3000, () => console.log("Server up and running."));
+  app.listen(process.env.PORT, () => console.log("Server up and running."));
 });
 
