@@ -38,7 +38,7 @@ Start the web server and connect to the database by running the following in a t
 npm start
 ```
 
-### How to deploy to heroku
+## How to deploy to heroku
 
 1. Create Heroku account
 2. Install Heroku CLI:
