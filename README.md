@@ -23,7 +23,8 @@ Following the instructions in the tutorial:
 
 1. Create a MongoDB Atlas account
 2. Create a cluster named `todo` on the free tier
-3. Add your local IP address to the allowlist
+3. Add the IP address `0.0.0.0/0` to the allowlist
+
 4. Create a new username/password for the cluster
 5. Get the connection string
 6. Set the connection string in `./.env`, replacing the `<username>` and `<password>` parts:
@@ -60,6 +61,8 @@ heroku local web
 heroku create
 git push heroku main
 ```
+
+6. Add `DB_CONNECT` config var
 
 
 ### Start the server
