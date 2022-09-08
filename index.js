@@ -31,39 +31,67 @@ app.use("/static", express.static("public"));
 // information in the request body.
 app.use(express.urlencoded({ extended: true }));
 
-
-// Listen for HTTP GET requests on the root path (e.g., http://localhost:3000/)
-// and return the To-Do home page HTML template as the response.
-app.get('/', (req, res) => {
-  TodoTask.find({}, (err, tasks) => {
-    res.render("todo.ejs", { todoTasks: tasks });
+// Listen for HTTP requests on the root path (e.g., http://localhost:3000/)
+app.route("/")
+  // Listen for HTTP GET requests
+  // and return the To-Do home page HTML template as the response.
+  .get((req, res) => {
+    TodoTask.find({}, (err, tasks) => {
+      res.render("list.ejs", { todoTasks: tasks });
+    });
+  })
+  // Listen for HTTP POST requests to
+  // capture form submissions from <form/> elements on the
+  // home page of the To-Do App.
+  .post(async (req, res) => {
+    console.log(req.body);
+    // The new task form has been submitted.
+    // Based on the form contents,
+    // create a new TodoTask object instance.
+    const todoTask = new TodoTask({
+      content: req.body.content,
+    });
+    // Try saving the new instance to the database.
+    try {
+      await todoTask.save();
+      // The save was successful, so redirect back to the
+      // todo list home page.
+      res.redirect("/");
+    } catch(err) {
+      // The save was not successful, but also redirect back to the
+      // todo list home page.
+      res.redirect("/");
+    }
   });
-});
 
-// Listen for HTTP POST requests on the root path to
-// capture form submissions from <form/> elements on the
-// home page of the To-Do App.
-app.post('/', async (req, res) => {
-  console.log(req.body);
-  // The new task form has been submitted.
-  // Based on the form contents,
-  // create a new TodoTask object instance.
-  const todoTask = new TodoTask({
-    content: req.body.content,
+  //
+app.route("/edit/:id")
+  .get((req, res) => {
+    const id = req.params.id;
+    TodoTask.find({}, (err, tasks) => {
+      res.render("edit.ejs", { todoTasks: tasks, idTask: id });
+    });
+  })
+  .post((req, res) => {
+    const id = req.params.id;
+    TodoTask.findByIdAndUpdate(id, { content: req.body.content }, err => {
+      if(err) {
+        return res.send(500, err);
+      }
+      res.redirect("/");
+    });
   });
-  // Try saving the new instance to the database.
-  try {
-    await todoTask.save();
-    // The save was successful, so redirect back to the
-    // todo list home page.
-    res.redirect("/");
-  } catch(err) {
-    // The save was not successful, but also redirect back to the
-    // todo list home page.
-    res.redirect("/");
-  }
-});
 
+app.route("/remove/:id")
+  .get((req, res) => {
+    const id = req.params.id;
+    TodoTask.findByIdAndRemove(id, err => {
+      if(err) {
+        return res.send(500, err);
+      }
+      res.redirect("/");
+    });
+  });
 
 // Connect to the database.
 // Provide a callback function, so that, upon successful connection,
