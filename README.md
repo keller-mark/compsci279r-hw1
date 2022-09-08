@@ -32,6 +32,36 @@ Following the instructions in the tutorial:
 DB_CONNECT=mongodb+srv://<username>:<password>@todo.qhddaeu.mongodb.net/?retryWrites=true&w=majority
 ```
 
+
+### How to deploy to heroku
+
+1. Create Heroku account
+2. Install Heroku CLI
+
+```sh
+brew tap heroku/brew && brew install heroku
+```
+
+3. Login to the CLI
+
+```sh
+heroku login
+```
+
+4. Run app locally
+
+```sh
+heroku local web
+```
+
+5. Deploy
+
+```sh
+heroku create
+git push heroku main
+```
+
+
 ### Start the server
 
 Start the web server and connect to the database by running the following in a terminal.
@@ -39,3 +69,9 @@ Start the web server and connect to the database by running the following in a t
 ```sh
 npm start
 ```
+
+## Resources used
+
+- https://medium.com/@diogo.fg.pinheiro/simple-to-do-list-app-with-node-js-and-mongodb-chapter-1-c645c7a27583
+- https://devcenter.heroku.com/articles/deploying-nodejs
+- https://stackoverflow.com/questions/69030963/error-usefindandmodify-is-an-invalid-option
