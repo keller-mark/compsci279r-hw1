@@ -36,7 +36,10 @@ app.route("/")
   // Listen for HTTP GET requests
   // and return the To-Do home page HTML template as the response.
   .get((req, res) => {
+    // Retrieve all of the existing todo list tasks from the database.
     TodoTask.find({}, (err, tasks) => {
+      // Once the tasks have loaded, pass them to the template rendering engine,
+      // so they can be filled into the template.
       res.render("list.ejs", { todoTasks: tasks });
     });
   })
@@ -44,15 +47,20 @@ app.route("/")
   // capture form submissions from <form/> elements on the
   // home page of the To-Do App.
   .post(async (req, res) => {
-    console.log(req.body);
     // The new task form has been submitted.
     // Based on the form contents,
     // create a new TodoTask object instance.
     const todoTask = new TodoTask({
+      // Get the task name from the request body
+      // which contains the submitted form contents.
       content: req.body.content,
     });
-    // Try saving the new instance to the database.
+    // Try saving the new instance to the database,
+    // which may throw an error if unsuccessful.
     try {
+      // The save function returns a Promise,
+      // so we need to wait until it has resolved before proceeding.
+      // Reference: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await
       await todoTask.save();
       // The save was successful, so redirect back to the
       // todo list home page.
@@ -67,19 +75,41 @@ app.route("/")
 // Listen for HTTP requests on the edit path
 // for a particular task.
 app.route("/edit/:id")
+  // Listen for HTTP GET requests,
+  // which occur when a user clicks the edit button for a task
+  // from the list home page. 
   .get((req, res) => {
-    // Parse the ID from the URL path.
+    // Parse the task ID from the URL path.
     const id = req.params.id;
+    // Retrieve all of the existing todo list tasks from the database.
     TodoTask.find({}, (err, tasks) => {
+      // Once the tasks have loaded, pass them to the template rendering engine,
+      // so they can be filled into the template.
+      // Pass the ID of the task that is currently being edited,
+      // so that the template engine can render an <input/> element to allow
+      // the user to change the text for this task.
       res.render("edit.ejs", { todoTasks: tasks, idTask: id });
     });
   })
+  // Listen for HTTP POST requests
+  // which occur when a user submits the form rendered by the corresponding
+  // /edit/:id GET request (defined above).
   .post((req, res) => {
+    // Parse the task ID from the URL path.
     const id = req.params.id;
+    // Update the corresponding task's content property,
+    // using the TodoTask model's findByIdAndUpdate method,
+    // and pass a callback function to execute upon potentially successful
+    // completion of the update.
     TodoTask.findByIdAndUpdate(id, { content: req.body.content }, err => {
+      // If an error occurs during the update, return an HTTP 500 status
+      // to the user's browser to indicate a server error.
       if(err) {
         return res.send(500, err);
       }
+      // If no error has occurred, then we reach this point and
+      // we redirect back to the todo list home page,
+      // where we re-render the todo list with the updated task contents.
       res.redirect("/");
     });
   });
@@ -87,13 +117,25 @@ app.route("/edit/:id")
 // Listen for HTTP requests on the remove path
 // for a particular task.
 app.route("/remove/:id")
+  // Listen for HTTP GET requests
+  // which occur when a user clicks a delete task button
+  // from the list on the todo list home page.
   .get((req, res) => {
-    // Parse the ID from the URL path.
+    // Parse the task ID from the URL path.
     const id = req.params.id;
+    // Use the TodoTask model's findByIdAndRemove method,
+    // which takes the ID of the task to remove,
+    // and a callback function to execute upon potentially successful
+    // removal of the task from the database.
     TodoTask.findByIdAndRemove(id, err => {
+      // If an error occurs during the deletion, return an HTTP 500 status
+      // to the user's browser to indicate a server error.
       if(err) {
         return res.send(500, err);
       }
+      // If no error has occurred, then we reach this point and
+      // we redirect back to the todo list home page,
+      // where we re-render the todo list without the deleted task.
       res.redirect("/");
     });
   });
@@ -111,4 +153,3 @@ mongoose.connect(process.env.DB_CONNECT).then(() => {
   // once the server has started successfully.
   app.listen(process.env.PORT, () => console.log("Server up and running."));
 });
-

@@ -1,25 +1,41 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <!-- Set the title of the app which appears in the browser window or tab bar. -->
     <title>Todo App</title>
+    <!-- Load the custom stylesheet. -->
     <link rel="stylesheet" href="/static/stylesheets/style.css" type="text/css">
+    <!-- Load the fonts referenced from the stylesheet. -->
     <link href="https://fonts.googleapis.com/css?family=Baloo+Bhai|Candal|Chewy&display=swap" rel="stylesheet">
+    <!-- Load the Font Awesome icon font which we use to render the edit and delete icons. -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
   </head>
   <body>
     <div class="todo-container">
+      <!-- Create a second-level heading for the page title. -->
       <h2>To-Do List</h2>
       <div class="todo">
+        <!--
+          Create the form to define a new task.
+          We use action="/" because, upon submission of the form,
+          we want to make a POST request to the route "/" (e.g., http://localhost:3000/)
+          where the body of the request contains the contents of the <input/>
+          element contained in the form.
+        -->
         <form action="/" method="POST" class="todo-header">
+          <!-- Create a text input for the form contents. -->
           <input type="text" name="content">
-          <button type="submit">
-            <span class="fas fa-plus"></span>
-          </button>
+          <!-- Create a button for the form submission. -->
+          <button type="submit"><span class="fas fa-plus"></span></button>
         </form>
+        <!-- Create the todo list using the unordered list element. -->
         <ul class="todo-list">
+          <!-- Use the EJS templating language to render each task in a list item element. -->
           <% todoTasks.forEach(details => { %>
             <li class="todo-list-item">
+              <!-- Use the templating language to access the task details for the current task iteration. -->
               <div class="todo-list-item-name"><%= details.content %></div>
+              <!-- Render the edit and delete buttons using links where the task IDs are filled in as the link suffix. -->
               <a href="/edit/<%= details._id %>" class="edit"><span class="fas fa-edit"></span></a>
               <a href="/remove/<%= details._id %>" class="remove"><span class="fas fa-times"></span></a>
             </li>

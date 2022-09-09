@@ -1,24 +1,52 @@
+/* Style the todo list elements */
+
+/*
+  Reset the default margin, padding,
+  and box-sizing properties for every
+  type of element.
+*/
 * {
   margin: 0;
   padding: 0;
+  /*
+    Compute the bounding box based on the
+    padding and margin.
+  */
   box-sizing: border-box;
 }
 
 body {
+  /* Set the background color to orange for the whole page body. */
   background: #e27442;
 }
 
 .todo-container {
   color: white;
   position: absolute;
+  /*
+    Position the container's start at the halfway point,
+    but then use transform: translate to move it left and up
+    so its middle point is located at the center.
+  */
   top: 50%;
   left: 50%;
-  padding: 20px;
-  width: 600px;
   transform: translate(-50%, -50%);
+  width: 600px;
+  padding: 20px;
+  /*
+    Make the container box darker by
+    adding an almost fully transparent
+    black background.
+  */
   background: rgba(255, 255, 255, 0.1);
+  /* Give the container rounded corners. */
   border-radius: 20px;
+  /*
+    Use CSS flexbox for its child elements.
+    Reference: https://css-tricks.com/snippets/css/a-guide-to-flexbox/
+  */
   display: flex;
+  /* Use flex-direction column to create multiple rows. */
   flex-direction: column;
   align-items: center;
 }
@@ -34,8 +62,10 @@ body {
 }
 
 .todo-header input {
+  /* Style the main text input element. */
   width: 92%;
   border: none;
+  /* Give the input slightly rounded borders. */
   border-radius: 5px;
   height: 20px;
   font-family: 'Candal', sans-serif;
@@ -44,14 +74,24 @@ body {
 .todo-header button {
   color: white;
   border: none;
+  /*
+    Give the button fully rounded borders
+    so that it becomes an ellipse.
+  */
   border-radius: 50%;
+  /*
+    Hovering over the button should show the hand pointer icon
+    to suggest that it can be clicked.
+  */
   cursor: pointer;
   padding: 5px;
   font-family: 'Candal', sans-serif;
+  /* Give the button a green background. */
   background-color: rgb(51, 212, 100);
 }
 
 .todo-container ul {
+  /* Remove the default unordered list bullets. */
   list-style: none;
 }
 
@@ -59,15 +99,19 @@ body {
   padding: 10px;
   margin-top: 10px;
   border: none;
+  /* Give the list items a slightly rounded border. */
   border-radius: 5px;
   font-family: 'Candal', sans-serif;
   background: rgba(0, 0, 0, 0.3);
+  /* Use CSS flexbox for the list item's children. */
   display: flex;
+  /* Use flex-direction row to create multiple columns. */
   flex-direction: row;
 }
 
 .todo-list-item form {
   width: 100%;
+  /* Use CSS flexbox for the form element's children. */
   display: flex;
 }
 
@@ -75,6 +119,7 @@ body {
   flex-grow: 2;
   margin-right: 20px;
   border: none;
+  /* Give the input element a slightly rounded border. */
   border-radius: 5px;
   font-family: 'Candal', sans-serif;
 }
@@ -82,39 +127,75 @@ body {
 .todo-list-item button {
   color: white;
   border: none;
+  /* Give the button element a slightly rounded border. */
   border-radius: 5px;
+  /*
+    Hovering over the button should show the hand pointer icon
+    to suggest that it can be clicked.
+  */
   cursor: pointer;
   padding: 5px;
   font-family: 'Candal', sans-serif;
+  /* Give the button a green background. */
   background-color: rgb(51, 212, 100);
 }
 
 .todo-list-item .cancel {
   color: white;
+  /*
+    Do not show the underline style
+    that is rendered for <a/> elements by default.
+  */
   text-decoration: none;
   border: none;
+  /* Give the element a slightly rounded border. */
   border-radius: 5px;
+  /*
+    Hovering over the element should show the hand pointer icon
+    to suggest that it can be clicked.
+  */
   cursor: pointer;
   padding: 5px;
   font-family: 'Candal', sans-serif;
+  /* Give the button a red background. */
   background-color: rgb(223, 43, 43);
   margin-left: 5px;
 }
 
 .todo-list-item div {
+  /*
+    This child will take up twice as much space as the other
+    elements.
+  */
   flex-grow: 2;
 }
 
 .todo-list-item .edit {
   color: rgb(143, 233, 58);
   margin-right: 10px;
+  /*
+    Hovering over the element should show the hand pointer icon
+    to suggest that it can be clicked.
+  */
   cursor: pointer;
+  /*
+    Do not show the underline style
+    that is rendered for <a/> elements by default.
+  */
   text-decoration: none;
 }
 
 .todo-list-item .remove {
   color: rgb(243, 96, 96);
   margin-right: 5px;
+  /*
+    Hovering over the element should show the hand pointer icon
+    to suggest that it can be clicked.
+  */
   cursor: pointer;
+  /*
+    Do not show the underline style
+    that is rendered for <a/> elements by default.
+  */
   text-decoration: none;
 }
